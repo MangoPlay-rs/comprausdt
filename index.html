@@ -9,31 +9,173 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{background:#081120;color:white;padding:20px}
-.container{max-width:1400px;margin:auto}
-h1{margin-bottom:10px;font-size:38px}
-.subtitle{color:#94a3b8;margin-bottom:20px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:20px}
-.card{background:#111c2e;padding:20px;border-radius:15px}
-.card h3{color:#94a3b8;font-size:14px;margin-bottom:10px}
-.card .value{font-size:30px;font-weight:bold}
-.green{background:#16a34a}
-.section{background:#111c2e;padding:20px;border-radius:15px;margin-bottom:20px}
-.section h2{margin-bottom:15px}
-button{background:#16a34a;border:none;color:white;padding:12px 20px;border-radius:10px;cursor:pointer;font-weight:bold}
-button:hover{opacity:.9}
-input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;background:#0b1322;color:white}
-table{width:100%;border-collapse:collapse}
-th{background:#1e293b;padding:12px;text-align:left}
-td{padding:10px;border-bottom:1px solid #1e293b}
-.status-green{background:rgba(34,197,94,.15)}
-.status-red{background:rgba(239,68,68,.15)}
-.status-yellow{background:rgba(234,179,8,.15)}
-.bank-card{background:#0b1322;padding:15px;border-radius:10px;margin-bottom:10px}
-textarea{height:250px}
-.top-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
-.red-btn{background:#ef4444}
-.blue-btn{background:#38bdf8;color:black}
+
+body{
+  background:#081120;
+  color:white;
+  padding:20px;
+}
+
+.container{
+  max-width:1400px;
+  margin:auto;
+}
+
+h1{
+  margin-bottom:10px;
+  font-size:38px;
+}
+
+.subtitle{
+  color:#94a3b8;
+  margin-bottom:20px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.card{
+  background:#111c2e;
+  padding:20px;
+  border-radius:15px;
+}
+
+.card h3{
+  color:#94a3b8;
+  font-size:14px;
+  margin-bottom:10px;
+}
+
+.card .value{
+  font-size:30px;
+  font-weight:bold;
+}
+
+.green{
+  background:#16a34a;
+}
+
+.section{
+  background:#111c2e;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:20px;
+}
+
+.section h2{
+  margin-bottom:15px;
+}
+
+button{
+  background:#16a34a;
+  border:none;
+  color:white;
+  padding:12px 20px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#0b1322;
+  color:white;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th{
+  background:#1e293b;
+  padding:12px;
+  text-align:left;
+  font-size:14px;
+}
+
+td{
+  padding:10px;
+  border-bottom:1px solid #1e293b;
+}
+
+.status-green{
+  background:rgba(34,197,94,.18);
+}
+
+.status-red{
+  background:rgba(239,68,68,.18);
+}
+
+.status-yellow{
+  background:rgba(234,179,8,.18);
+}
+
+.bank-card{
+  background:#0b1322;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+textarea{
+  height:280px;
+}
+
+.top-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+.red-btn{
+  background:#ef4444;
+}
+
+.blue-btn{
+  background:#38bdf8;
+  color:black;
+}
+
+.gray-btn{
+  background:#334155;
+}
+
+.notice{
+  background:#0b1322;
+  color:#94a3b8;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:15px;
+  font-size:14px;
+}
+
+.small{
+  color:#94a3b8;
+  font-size:13px;
+  margin-top:8px;
+}
+
+@media(max-width:800px){
+  body{padding:10px}
+  h1{font-size:28px}
+  table{font-size:13px}
+  th,td{padding:7px}
+  button{width:100%;margin-bottom:5px}
+  .top-buttons{display:block}
+}
 </style>
 </head>
 
@@ -67,14 +209,19 @@ textarea{height:250px}
 
 <div class="section">
   <h2>Configuración</h2>
+
+  <div class="notice">
+    Regla activa: ninguna cuenta debe quedar con menos de $10.000 y entre todas debe quedar una reserva total de $150.000.
+  </div>
+
   <table>
     <tr>
       <td>Saldo mínimo por cuenta</td>
-      <td><input id="minAccount" value="10000"></td>
+      <td><input id="minAccount" value="10000" oninput="calculate()"></td>
     </tr>
     <tr>
       <td>Reserva total obligatoria</td>
-      <td><input id="globalReserve" value="150000"></td>
+      <td><input id="globalReserve" value="150000" oninput="calculate()"></td>
     </tr>
   </table>
 </div>
@@ -86,11 +233,19 @@ textarea{height:250px}
     <button onclick="addAccount()">+ Agregar Cuenta</button>
     <button class="blue-btn" onclick="saveAllAccounts()">Guardar Online</button>
     <button class="blue-btn" onclick="loadAccounts()">Actualizar</button>
+    <button class="gray-btn" onclick="calculate()">Recalcular</button>
   </div>
+
+  <div class="small">
+    Verde: se puede comprar | Rojo: no tocar | Amarillo: queda como reserva
+  </div>
+
+  <br>
 
   <table>
     <thead>
       <tr>
+        <th>Titular</th>
         <th>Cuenta</th>
         <th>Banco</th>
         <th>Saldo</th>
@@ -101,9 +256,6 @@ textarea{height:250px}
     </thead>
     <tbody id="accountsBody"></tbody>
   </table>
-
-  <br>
-  <button onclick="calculate()">CALCULAR</button>
 </div>
 
 <div class="section">
@@ -113,7 +265,7 @@ textarea{height:250px}
 
 <div class="section">
   <h2>Mensaje listo</h2>
-  <button onclick="copyMessage()">Copiar</button>
+  <button onclick="copyMessage()">Copiar mensaje</button>
   <br><br>
   <textarea id="message"></textarea>
 </div>
@@ -137,7 +289,7 @@ function formatMoney(value){
 }
 
 function parseMoney(value){
-  if(!value) return 0;
+  if(value === null || value === undefined || value === '') return 0;
 
   let raw = String(value)
     .replace(/\$/g,'')
@@ -145,7 +297,7 @@ function parseMoney(value){
 
   if(raw.includes(',') && raw.includes('.')){
     raw = raw.replace(/\./g,'').replace(',', '.');
-  } else if(raw.includes(',')){
+  }else if(raw.includes(',')){
     raw = raw.replace(',', '.');
   }
 
@@ -162,7 +314,11 @@ function renderAccounts(){
 
     tr.innerHTML = `
       <td>
-        <input value="${acc.cuenta || ''}" onchange="updateField(${index},'cuenta',this.value)">
+        <input value="${acc.titular || ''}" oninput="updateField(${index},'titular',this.value)">
+      </td>
+
+      <td>
+        <input value="${acc.cuenta || ''}" oninput="updateField(${index},'cuenta',this.value)">
       </td>
 
       <td>
@@ -173,14 +329,15 @@ function renderAccounts(){
           <option ${acc.banco==='Santander'?'selected':''}>Santander</option>
           <option ${acc.banco==='BBVA'?'selected':''}>BBVA</option>
           <option ${acc.banco==='Oca Blue'?'selected':''}>Oca Blue</option>
+          <option ${acc.banco==='Otro'?'selected':''}>Otro</option>
         </select>
       </td>
 
       <td>
-        <input value="${acc.saldo || ''}" onchange="updateField(${index},'saldo',this.value)">
+        <input value="${acc.saldo || ''}" oninput="updateField(${index},'saldo',this.value)">
       </td>
 
-      <td>${formatMoney(acc.available || 0)}</td>
+      <td><strong>${formatMoney(acc.available || 0)}</strong></td>
       <td>${formatMoney(acc.remaining || parseMoney(acc.saldo))}</td>
 
       <td>
@@ -196,6 +353,7 @@ function renderAccounts(){
 
 function updateField(index,field,value){
   accounts[index][field] = value;
+  calculate(false);
 }
 
 function addAccount(){
@@ -211,9 +369,10 @@ function addAccount(){
   });
 
   renderAccounts();
+  calculate(false);
 }
 
-function calculate(){
+function calculate(shouldRender = true){
   const min = parseMoney(document.getElementById('minAccount').value);
   const reserve = parseMoney(document.getElementById('globalReserve').value);
 
@@ -245,7 +404,7 @@ function calculate(){
 
       if(available > 0){
         status = 'status-green';
-      } else {
+      }else{
         status = 'status-yellow';
       }
     }
@@ -258,7 +417,10 @@ function calculate(){
     };
   });
 
-  renderAccounts();
+  if(shouldRender){
+    renderAccounts();
+  }
+
   renderTotals();
 }
 
@@ -303,6 +465,7 @@ function renderTotals(){
 
     const div = document.createElement('div');
     div.className = 'bank-card';
+
     div.innerHTML = `
       <strong>${bank}</strong><br>
       Disponible: ${formatMoney(item.total)}
@@ -334,70 +497,94 @@ function copyMessage(){
 }
 
 async function saveAllAccounts(){
-  for(const acc of accounts){
-    const payload = {
-      titular: acc.titular || '',
-      cuenta: acc.cuenta || '',
-      banco: acc.banco || '',
-      saldo: parseMoney(acc.saldo),
-      updated_at: new Date().toISOString()
-    };
+  try{
+    for(const acc of accounts){
+      const payload = {
+        titular: acc.titular || '',
+        cuenta: acc.cuenta || '',
+        banco: acc.banco || '',
+        saldo: parseMoney(acc.saldo),
+        updated_at: new Date().toISOString()
+      };
 
-    if(acc.id){
-      await supabaseClient
-        .from('accounts')
-        .update(payload)
-        .eq('id', acc.id);
-    } else {
-      await supabaseClient
-        .from('accounts')
-        .insert(payload);
+      if(acc.id){
+        const { error } = await supabaseClient
+          .from('accounts')
+          .update(payload)
+          .eq('id', acc.id);
+
+        if(error) throw error;
+
+      }else{
+        const { error } = await supabaseClient
+          .from('accounts')
+          .insert(payload);
+
+        if(error) throw error;
+      }
     }
-  }
 
-  alert('Datos guardados online 🚀');
-  await loadAccounts();
+    alert('Datos guardados online 🚀');
+    await loadAccounts();
+
+  }catch(error){
+    console.error(error);
+    alert('Error al guardar online: ' + error.message);
+  }
 }
 
 async function loadAccounts(){
-  const { data, error } = await supabaseClient
-    .from('accounts')
-    .select('*')
-    .order('id', { ascending:true });
+  try{
+    const { data, error } = await supabaseClient
+      .from('accounts')
+      .select('*')
+      .order('id', { ascending:true });
 
-  if(error){
-    console.log(error);
-    alert('Error cargando datos desde Supabase');
-    return;
+    if(error) throw error;
+
+    accounts = (data || []).map(acc=>({
+      id: acc.id,
+      titular: acc.titular || '',
+      cuenta: acc.cuenta || '',
+      banco: acc.banco || 'Prex',
+      saldo: acc.saldo || '',
+      available:0,
+      remaining:parseMoney(acc.saldo),
+      status:'status-red'
+    }));
+
+    calculate();
+
+  }catch(error){
+    console.error(error);
+    alert('Error cargando datos desde Supabase: ' + error.message);
   }
-
-  accounts = (data || []).map(acc=>({
-    id: acc.id,
-    titular: acc.titular || '',
-    cuenta: acc.cuenta || '',
-    banco: acc.banco || 'Prex',
-    saldo: acc.saldo || '',
-    available:0,
-    remaining:parseMoney(acc.saldo),
-    status:'status-red'
-  }));
-
-  calculate();
 }
 
 async function deleteAccount(index){
   const acc = accounts[index];
 
-  if(acc.id){
-    await supabaseClient
-      .from('accounts')
-      .delete()
-      .eq('id', acc.id);
+  if(!confirm('¿Seguro querés eliminar esta cuenta?')){
+    return;
   }
 
-  accounts.splice(index,1);
+  try{
+    if(acc.id){
+      const { error } = await supabaseClient
+        .from('accounts')
+        .delete()
+        .eq('id', acc.id);
 
-  calculate();
+      if(error) throw error;
+    }
+
+    accounts.splice(index,1);
+    calculate();
+
+  }catch(error){
+    console.error(error);
+    alert('Error eliminando cuenta: ' + error.message);
+  }
 }
 
 loadAccounts();
