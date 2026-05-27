@@ -11,170 +11,254 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 
 body{
-  background:#081120;
+  background:#07111f;
   color:white;
-  padding:20px;
+  padding:18px;
 }
 
 .container{
-  max-width:1400px;
+  max-width:1250px;
   margin:auto;
 }
 
 h1{
-  margin-bottom:10px;
   font-size:38px;
+  margin-bottom:8px;
 }
 
 .subtitle{
   color:#94a3b8;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:15px;
-  margin-bottom:20px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin-bottom:18px;
 }
 
 .card{
   background:#111c2e;
-  padding:20px;
-  border-radius:15px;
+  padding:18px;
+  border-radius:18px;
 }
 
 .card h3{
   color:#94a3b8;
   font-size:14px;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .card .value{
-  font-size:30px;
-  font-weight:bold;
+  font-size:28px;
+  font-weight:800;
 }
 
 .green{
-  background:#16a34a;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
 }
 
 .section{
   background:#111c2e;
   padding:20px;
-  border-radius:15px;
-  margin-bottom:20px;
-}
-
-.section h2{
-  margin-bottom:15px;
+  border-radius:20px;
+  margin-bottom:18px;
 }
 
 button{
-  background:#16a34a;
   border:none;
-  color:white;
-  padding:12px 20px;
-  border-radius:10px;
+  padding:13px 18px;
+  border-radius:12px;
+  font-weight:800;
   cursor:pointer;
-  font-weight:bold;
+  color:white;
+  background:#16a34a;
 }
 
-button:hover{
-  opacity:.9;
+.blue-btn{background:#38bdf8;color:#03111c}
+.red-btn{background:#ef4444}
+.gray-btn{background:#334155}
+
+.top-buttons{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:18px;
 }
 
 input,select,textarea{
   width:100%;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  background:#0b1322;
-  color:white;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-th{
-  background:#1e293b;
   padding:12px;
-  text-align:left;
-  font-size:14px;
-}
-
-td{
-  padding:10px;
-  border-bottom:1px solid #1e293b;
-}
-
-.status-green{
-  background:rgba(34,197,94,.18);
-}
-
-.status-red{
-  background:rgba(239,68,68,.18);
-}
-
-.status-yellow{
-  background:rgba(234,179,8,.18);
-}
-
-.bank-card{
-  background:#0b1322;
-  padding:15px;
+  border:none;
   border-radius:10px;
-  margin-bottom:10px;
+  background:#081120;
+  color:white;
+  font-size:16px;
 }
 
 textarea{
-  height:280px;
+  min-height:260px;
 }
 
-.top-buttons{
+.notice,.legend{
+  color:#94a3b8;
+  margin-bottom:14px;
+  line-height:1.4;
+}
+
+.accounts-list{
   display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
+  flex-direction:column;
+  gap:14px;
 }
 
-.red-btn{
-  background:#ef4444;
-}
-
-.blue-btn{
-  background:#38bdf8;
-  color:black;
-}
-
-.gray-btn{
-  background:#334155;
-}
-
-.notice{
+.account-card{
   background:#0b1322;
-  color:#94a3b8;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:15px;
-  font-size:14px;
+  border:1px solid #1e293b;
+  border-radius:18px;
+  padding:16px;
 }
 
-.small{
-  color:#94a3b8;
+.account-card.status-green{
+  border-color:#22c55e;
+  background:rgba(34,197,94,.12);
+}
+
+.account-card.status-red{
+  border-color:#ef4444;
+  background:rgba(239,68,68,.13);
+}
+
+.account-card.status-yellow{
+  border-color:#f59e0b;
+  background:rgba(245,158,11,.13);
+}
+
+.account-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr) auto;
+  gap:12px;
+  align-items:end;
+}
+
+.field label{
+  display:block;
+  color:#cbd5e1;
   font-size:13px;
-  margin-top:8px;
+  margin-bottom:6px;
+  font-weight:700;
 }
 
-@media(max-width:800px){
-  body{padding:10px}
-  h1{font-size:28px}
-  table{font-size:13px}
-  th,td{padding:7px}
-  button{width:100%;margin-bottom:5px}
-  .top-buttons{display:block}
+.result-row{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.12);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.result-box small{
+  display:block;
+  color:#cbd5e1;
+  margin-bottom:4px;
+}
+
+.result-box strong{
+  font-size:22px;
+}
+
+.available{
+  color:#22c55e;
+}
+
+.remaining{
+  color:#fbbf24;
+}
+
+.bank-card{
+  background:#081120;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:10px;
+  border:1px solid #1e293b;
+}
+
+.bank-card strong{
+  font-size:20px;
+}
+
+.bank-card span{
+  color:#22c55e;
+  font-weight:800;
+}
+
+.delete-btn{
+  height:46px;
+  min-width:48px;
+}
+
+.config-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+@media(max-width:900px){
+  .top-buttons{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .account-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .delete-btn{
+    width:100%;
+  }
+}
+
+@media(max-width:600px){
+  body{
+    padding:10px;
+  }
+
+  h1{
+    font-size:30px;
+  }
+
+  .section{
+    padding:16px;
+  }
+
+  .top-buttons{
+    grid-template-columns:1fr;
+  }
+
+  .config-grid{
+    grid-template-columns:1fr;
+  }
+
+  .account-grid{
+    grid-template-columns:1fr;
+  }
+
+  .result-row{
+    grid-template-columns:1fr;
+  }
+
+  button{
+    width:100%;
+  }
+
+  .card .value{
+    font-size:24px;
+  }
+
+  .result-box strong{
+    font-size:24px;
+  }
 }
 </style>
 </head>
@@ -209,21 +293,21 @@ textarea{
 
 <div class="section">
   <h2>Configuración</h2>
-
   <div class="notice">
     Regla activa: ninguna cuenta debe quedar con menos de $10.000 y entre todas debe quedar una reserva total de $150.000.
   </div>
 
-  <table>
-    <tr>
-      <td>Saldo mínimo por cuenta</td>
-      <td><input id="minAccount" value="10000" oninput="calculate()"></td>
-    </tr>
-    <tr>
-      <td>Reserva total obligatoria</td>
-      <td><input id="globalReserve" value="150000" oninput="calculate()"></td>
-    </tr>
-  </table>
+  <div class="config-grid">
+    <div class="field">
+      <label>Saldo mínimo por cuenta</label>
+      <input id="minAccount" value="10000" oninput="calculate()">
+    </div>
+
+    <div class="field">
+      <label>Reserva total obligatoria</label>
+      <input id="globalReserve" value="150000" oninput="calculate()">
+    </div>
+  </div>
 </div>
 
 <div class="section">
@@ -236,26 +320,11 @@ textarea{
     <button class="gray-btn" onclick="calculate()">Recalcular</button>
   </div>
 
-  <div class="small">
-    Verde: se puede comprar | Rojo: no tocar | Amarillo: queda como reserva
+  <div class="legend">
+    🟢 Verde: se puede comprar | 🔴 Rojo: no tocar | 🟡 Amarillo: queda como reserva
   </div>
 
-  <br>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Titular</th>
-        <th>Cuenta</th>
-        <th>Banco</th>
-        <th>Saldo</th>
-        <th>Disponible</th>
-        <th>Queda</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="accountsBody"></tbody>
-  </table>
+  <div id="accountsBody" class="accounts-list"></div>
 </div>
 
 <div class="section">
@@ -274,9 +343,7 @@ textarea{
 
 <script>
 const SUPABASE_URL = 'https://fqttuhgkdeydgmnzjfzn.supabase.co';
-
 const SUPABASE_KEY = 'sb_publishable_gqVQgVk468ZyPDmYqHO-IQ_mAa66SDs';
-
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let accounts = [];
@@ -291,9 +358,7 @@ function formatMoney(value){
 function parseMoney(value){
   if(value === null || value === undefined || value === '') return 0;
 
-  let raw = String(value)
-    .replace(/\$/g,'')
-    .replace(/\s/g,'');
+  let raw = String(value).replace(/\$/g,'').replace(/\s/g,'');
 
   if(raw.includes(',') && raw.includes('.')){
     raw = raw.replace(/\./g,'').replace(',', '.');
@@ -309,43 +374,57 @@ function renderAccounts(){
   body.innerHTML = '';
 
   accounts.forEach((acc,index)=>{
-    const tr = document.createElement('tr');
-    tr.className = acc.status || '';
+    const div = document.createElement('div');
+    div.className = `account-card ${acc.status || ''}`;
 
-    tr.innerHTML = `
-      <td>
-        <input value="${acc.titular || ''}" oninput="updateField(${index},'titular',this.value)">
-      </td>
+    div.innerHTML = `
+      <div class="account-grid">
 
-      <td>
-        <input value="${acc.cuenta || ''}" oninput="updateField(${index},'cuenta',this.value)">
-      </td>
+        <div class="field">
+          <label>Titular</label>
+          <input value="${acc.titular || ''}" oninput="updateField(${index},'titular',this.value)">
+        </div>
 
-      <td>
-        <select onchange="updateField(${index},'banco',this.value)">
-          <option ${acc.banco==='Prex'?'selected':''}>Prex</option>
-          <option ${acc.banco==='Mi Dinero'?'selected':''}>Mi Dinero</option>
-          <option ${acc.banco==='Itaú'?'selected':''}>Itaú</option>
-          <option ${acc.banco==='Santander'?'selected':''}>Santander</option>
-          <option ${acc.banco==='BBVA'?'selected':''}>BBVA</option>
-          <option ${acc.banco==='Oca Blue'?'selected':''}>Oca Blue</option>
-          <option ${acc.banco==='Otro'?'selected':''}>Otro</option>
-        </select>
-      </td>
+        <div class="field">
+          <label>Cuenta</label>
+          <input value="${acc.cuenta || ''}" oninput="updateField(${index},'cuenta',this.value)">
+        </div>
 
-      <td>
-        <input value="${acc.saldo || ''}" oninput="updateField(${index},'saldo',this.value)">
-      </td>
+        <div class="field">
+          <label>Banco</label>
+          <select onchange="updateField(${index},'banco',this.value)">
+            <option ${acc.banco==='Prex'?'selected':''}>Prex</option>
+            <option ${acc.banco==='Mi Dinero'?'selected':''}>Mi Dinero</option>
+            <option ${acc.banco==='Itaú'?'selected':''}>Itaú</option>
+            <option ${acc.banco==='Santander'?'selected':''}>Santander</option>
+            <option ${acc.banco==='BBVA'?'selected':''}>BBVA</option>
+            <option ${acc.banco==='Oca Blue'?'selected':''}>Oca Blue</option>
+            <option ${acc.banco==='Otro'?'selected':''}>Otro</option>
+          </select>
+        </div>
 
-      <td><strong>${formatMoney(acc.available || 0)}</strong></td>
-      <td>${formatMoney(acc.remaining || parseMoney(acc.saldo))}</td>
+        <div class="field">
+          <label>Saldo</label>
+          <input value="${acc.saldo || ''}" oninput="updateField(${index},'saldo',this.value)">
+        </div>
 
-      <td>
-        <button class="red-btn" onclick="deleteAccount(${index})">X</button>
-      </td>
+        <button class="red-btn delete-btn" onclick="deleteAccount(${index})">X</button>
+      </div>
+
+      <div class="result-row">
+        <div class="result-box">
+          <small>Disponible para USDT</small>
+          <strong class="available">${formatMoney(acc.available || 0)}</strong>
+        </div>
+
+        <div class="result-box">
+          <small>Queda como reserva</small>
+          <strong class="remaining">${formatMoney(acc.remaining || parseMoney(acc.saldo))}</strong>
+        </div>
+      </div>
     `;
 
-    body.appendChild(tr);
+    body.appendChild(div);
   });
 
   document.getElementById('totalAccounts').innerText = accounts.length;
@@ -438,10 +517,7 @@ function renderTotals(){
     totalReserve += acc.remaining || 0;
 
     if(!bankTotals[acc.banco]){
-      bankTotals[acc.banco] = {
-        total:0,
-        accounts:[]
-      };
+      bankTotals[acc.banco] = {total:0,accounts:[]};
     }
 
     bankTotals[acc.banco].total += acc.available || 0;
@@ -465,10 +541,9 @@ function renderTotals(){
 
     const div = document.createElement('div');
     div.className = 'bank-card';
-
     div.innerHTML = `
       <strong>${bank}</strong><br>
-      Disponible: ${formatMoney(item.total)}
+      Disponible: <span>${formatMoney(item.total)}</span>
     `;
 
     bankDiv.appendChild(div);
