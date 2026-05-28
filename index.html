@@ -344,7 +344,7 @@ input,select{
     <button class="btn-green" onclick="addAccount()">+ Agregar</button>
     <button class="btn-blue" onclick="saveAllAccounts()">Guardar</button>
     <button class="btn-blue" onclick="loadAccounts()">Actualizar</button>
-    <button class="btn-dark" onclick="calculate()">Recalcular</button>
+    <<button class="btn-dark" onclick="calculate(true)">Recalcular</button>
   </div>
 
   <div class="panel">
@@ -611,9 +611,12 @@ function addAccount(bank='Prex'){
     remaining:0,
     status:'red'
   });
+
   openedBanks[bank] = true;
-  calculate();
-  openModal(accounts.length - 1);
+  currentIndex = accounts.length - 1;
+
+  calculate(true);
+  openModal(currentIndex);
 }
 
 function fillBankSelect(selected){
@@ -668,11 +671,19 @@ function refreshModalValues(){
 function closeModal(){
   currentIndex = null;
   document.getElementById('accountModal').classList.remove('show');
-  calculate();
+  calculate(true);
 }
 
 function saveModal(){
+  if(currentIndex !== null){
+    accounts[currentIndex].titular = document.getElementById('mTitular').value;
+    accounts[currentIndex].cuenta = document.getElementById('mCuenta').value;
+    accounts[currentIndex].banco = document.getElementById('mBanco').value;
+    accounts[currentIndex].saldo = document.getElementById('mSaldo').value;
+  }
+
   closeModal();
+  calculate(true);
 }
 
 async function deleteCurrentFromModal(){
