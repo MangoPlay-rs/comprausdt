@@ -2,1073 +2,733 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>Compra USDT</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calculadora UYU → USDT</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,Helvetica,sans-serif;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+:root{
+  --bg:#030b14;
+  --panel:#081424;
+  --panel2:#0d1a2d;
+  --line:#1f3148;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --green:#22c55e;
+  --red:#ef4444;
+  --yellow:#facc15;
+  --blue:#3b82f6;
+  --purple:#9333ea;
 }
-
 body{
-  background:
-  radial-gradient(circle at top,#0d1b33 0%,#07111f 40%,#050b16 100%);
-  color:white;
+  background:radial-gradient(circle at top,#09203c 0%,#030b14 45%,#010409 100%);
+  color:var(--text);
   padding:14px;
+  padding-bottom:90px;
 }
-
-.container{
-  width:100%;
-  max-width:1400px;
-  margin:auto;
+.container{max-width:760px;margin:auto}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
 }
-
-h1{
-  font-size:42px;
-  margin-bottom:8px;
-  font-weight:800;
+h1{font-size:24px;line-height:1.15}
+.subtitle{font-size:13px;color:var(--muted);margin-top:4px}
+.icon-btn{
+  width:42px;height:42px;border-radius:12px;
+  border:1px solid var(--line);
+  background:#07111f;color:white;font-size:24px;
 }
-
-.subtitle{
-  color:#94a3b8;
-  margin-bottom:20px;
-  font-size:15px;
-}
-
-.cards{
+.summary{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:14px;
-  margin-bottom:18px;
-}
-
-.card{
-  background:rgba(10,18,35,.92);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:18px;
-  padding:20px;
-  backdrop-filter:blur(10px);
-}
-
-.card h3{
-  color:#94a3b8;
-  font-size:14px;
-  margin-bottom:10px;
-}
-
-.card .value{
-  font-size:30px;
-  font-weight:800;
-}
-
-.green-card{
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-}
-
-.section{
-  background:rgba(10,18,35,.93);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:18px;
-  backdrop-filter:blur(12px);
-}
-
-.section h2{
-  font-size:36px;
-  margin-bottom:16px;
-  font-weight:800;
-}
-
-.top-buttons{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:14px;
 }
-
-button{
-  border:none;
+.summary-card{
+  background:rgba(8,20,36,.9);
+  border:1px solid var(--line);
   border-radius:14px;
-  padding:14px;
-  cursor:pointer;
+  padding:12px;
+}
+.summary-card small{color:var(--muted);display:block;margin-bottom:6px;font-size:12px}
+.summary-card strong{font-size:20px}
+.summary-card.green strong{color:var(--green)}
+.summary-card.yellow strong{color:var(--yellow)}
+.legend{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  margin-bottom:14px;
+  font-size:13px;
+  color:#cbd5e1;
+}
+.legend span{display:flex;align-items:center;gap:8px}
+.dot{width:13px;height:13px;border-radius:50%}
+.dot.green{background:var(--green)}
+.dot.red{background:var(--red)}
+.dot.yellow{background:var(--yellow)}
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:14px;
+}
+button{
+  border:0;
+  border-radius:13px;
+  padding:12px;
   font-weight:800;
   color:white;
-  font-size:16px;
-  transition:.2s;
+  cursor:pointer;
+  font-size:14px;
 }
-
-button:hover{
-  transform:scale(1.01);
+.btn-green{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#38bdf8)}
+.btn-dark{background:#172235;border:1px solid #334155}
+.btn-purple{background:linear-gradient(135deg,#7e22ce,#a855f7)}
+.btn-red{background:linear-gradient(135deg,#ef4444,#ff2d55)}
+.panel{
+  background:rgba(8,20,36,.92);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
 }
-
-.btn-green{
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-}
-
-.btn-blue{
-  background:linear-gradient(135deg,#2563eb,#38bdf8);
-}
-
-.btn-gray{
-  background:#334155;
-}
-
-.btn-red{
-  background:linear-gradient(135deg,#ef4444,#ff2d55);
-}
-
-.legend{
+.panel-title{
   display:flex;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
-  color:#cbd5e1;
-  font-weight:700;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
 }
-
-.legend span{
+.panel-title h2{font-size:18px}
+.add-bank{
+  border:1px dashed var(--purple);
+  color:#c084fc;
+  background:transparent;
+  width:100%;
+  margin-top:10px;
+}
+.bank{
+  background:rgba(7,17,31,.8);
+  border:1px solid var(--line);
+  border-radius:14px;
+  margin-bottom:10px;
+  overflow:hidden;
+}
+.bank-head{
   display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:8px;
+  padding:13px;
+  cursor:pointer;
 }
-
-.dot{
-  width:18px;
-  height:18px;
-  border-radius:50%;
+.bank-name{font-weight:900;font-size:17px}
+.bank-total{color:var(--green);font-weight:900}
+.bank-body{padding:0 10px 12px;display:none}
+.bank.open .bank-body{display:block}
+.account-mini{
+  background:rgba(13,26,45,.85);
+  border:1px solid var(--line);
+  border-left:4px solid var(--green);
+  border-radius:13px;
+  padding:11px;
+  margin-bottom:10px;
 }
-
-.green{background:#22c55e;}
-.red{background:#ef4444;}
-.yellow{background:#facc15;}
-
-.accounts-list{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
+.account-mini.red{border-left-color:var(--red)}
+.account-mini.yellow{border-left-color:var(--yellow)}
+.acc-top{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:8px;
+  align-items:center;
 }
-
-.account-card{
-  border-radius:22px;
-  padding:18px;
-  border:2px solid;
-  overflow:hidden;
-  position:relative;
+.acc-name{font-weight:900}
+.acc-sub{color:#cbd5e1;font-size:13px;margin-top:2px}
+.acc-status{width:13px;height:13px;border-radius:50%;background:var(--green)}
+.account-mini.red .acc-status{background:var(--red)}
+.account-mini.yellow .acc-status{background:var(--yellow)}
+.acc-menu{
+  background:transparent;
+  color:#94a3b8;
+  padding:4px;
+  font-size:22px;
 }
-
-.account-card::before{
-  content:'';
-  position:absolute;
+.acc-values{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:10px;
+}
+.acc-values small{color:#94a3b8;font-size:12px}
+.acc-values strong{display:block;margin-top:3px}
+.money-green{color:var(--green)}
+.money-yellow{color:var(--yellow)}
+.money-red{color:var(--red)}
+.add-account-bank{
+  width:100%;
+  background:transparent;
+  border:1px dashed var(--blue);
+  color:#60a5fa;
+  margin-top:4px;
+}
+.message-box{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+textarea{
+  width:100%;
+  min-height:120px;
+  resize:vertical;
+  background:#07111f;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+}
+.config-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+label{font-size:12px;color:#cbd5e1;font-weight:700;display:block;margin-bottom:6px}
+input,select{
+  width:100%;
+  background:#07111f;
+  border:1px solid var(--line);
+  color:white;
+  padding:11px;
+  border-radius:12px;
+  font-size:15px;
+}
+.bottom-nav{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  background:rgba(3,11,20,.96);
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:8px 6px 10px;
+  z-index:10;
+}
+.bottom-nav button{
+  background:transparent;
+  color:#cbd5e1;
+  padding:6px;
+  font-size:12px;
+}
+.bottom-nav b{display:block;font-size:18px;margin-bottom:3px;color:#60a5fa}
+.modal{
+  position:fixed;
   inset:0;
-  opacity:.07;
-  pointer-events:none;
+  background:rgba(0,0,0,.65);
+  z-index:99;
+  display:none;
+  align-items:flex-end;
 }
-
-.status-green{
-  border-color:#22c55e;
-  background:rgba(34,197,94,.10);
+.modal.show{display:flex}
+.modal-card{
+  width:100%;
+  max-width:760px;
+  margin:auto auto 0;
+  background:#0b1424;
+  border:1px solid var(--line);
+  border-radius:24px 24px 0 0;
+  padding:18px;
+  max-height:92vh;
+  overflow:auto;
 }
-
-.status-green::before{
-  background:#22c55e;
-}
-
-.status-red{
-  border-color:#ef4444;
-  background:rgba(239,68,68,.12);
-}
-
-.status-red::before{
-  background:#ef4444;
-}
-
-.status-yellow{
-  border-color:#facc15;
-  background:rgba(250,204,21,.10);
-}
-
-.status-yellow::before{
-  background:#facc15;
-}
-
-.account-header{
+.modal-head{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:14px;
-  gap:12px;
 }
-
-.account-title{
-  font-size:22px;
-  font-weight:800;
+.modal-head h2{font-size:20px}
+.close{
+  width:42px;height:42px;border-radius:14px;
+  background:#24113c;color:#c084fc;font-size:24px;
 }
-
-.account-grid{
+.form-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.big-saldo{
+  font-size:24px;
+  padding:16px;
+  border-color:#7c3aed;
+}
+.modal-results{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px;
+  gap:10px;
+  margin-top:14px;
 }
-
-.field label{
-  display:block;
-  margin-bottom:7px;
-  color:#e2e8f0;
-  font-weight:700;
-  font-size:14px;
-}
-
-input,select,textarea{
-  width:100%;
-  border:none;
-  outline:none;
-  background:#020817;
-  color:white;
-  padding:14px;
+.result-card{
+  background:#07111f;
+  border:1px solid var(--line);
   border-radius:14px;
-  font-size:18px;
-  border:1px solid rgba(255,255,255,.08);
+  padding:12px;
 }
-
-textarea{
-  min-height:250px;
+.result-card small{color:#cbd5e1}
+.result-card strong{display:block;margin-top:6px;font-size:20px}
+.status-pill{
+  margin-top:12px;
+  background:#07111f;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
 }
-
-.result-row{
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid rgba(255,255,255,.15);
-
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
+.save-modal{width:100%;margin-top:14px}
+.delete-modal{
+  width:100%;
+  background:transparent;
+  color:#ef4444;
+  margin-top:8px;
 }
-
-.result-box{
-  background:rgba(0,0,0,.18);
-  border-radius:16px;
-  padding:16px;
-}
-
-.result-box small{
-  display:block;
-  margin-bottom:6px;
-  color:#cbd5e1;
-  font-size:14px;
-}
-
-.result-box strong{
-  font-size:22px;
-  font-weight:800;
-}
-
-.available{
-  color:#22c55e;
-}
-
-.remaining{
-  color:#facc15;
-}
-
-.bank-card{
-  background:#020817;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:10px;
-}
-
-.bank-card strong{
-  font-size:22px;
-}
-
-.bank-card span{
-  color:#22c55e;
-  font-weight:800;
-}
-
-.copy-btn{
-  margin-bottom:16px;
-}
-
-.config-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.notice{
-  color:#cbd5e1;
-  margin-bottom:14px;
-  line-height:1.5;
-}
-
-@media(max-width:950px){
-
-  .top-buttons{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .account-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-@media(max-width:650px){
-
-  body{
-    padding:10px;
-  }
-
-  h1{
-    font-size:30px;
-  }
-
-  .section h2{
-    font-size:28px;
-  }
-
-  .top-buttons{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .config-grid{
-    grid-template-columns:1fr;
-  }
-
-  .account-grid{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  .account-card{
-    padding:14px;
-  }
-
-  .account-header{
+@media(min-width:800px){
+  .container{max-width:1180px}
+  .summary{grid-template-columns:repeat(4,1fr)}
+  .legend{grid-template-columns:repeat(3,max-content)}
+  .message-box{grid-template-columns:1fr 180px}
+  .actions{grid-template-columns:repeat(4,1fr)}
+  .bank-body.desktop-table .account-mini{
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr 1fr auto;
     align-items:center;
-  }
-
-  .account-title{
-    font-size:22px;
-  }
-
-  .account-header .btn-red{
-    width:auto;
-    padding:12px 18px;
-  }
-
-  input,select{
-    font-size:15px;
-    padding:11px;
-  }
-
-  .field label{
-    font-size:13px;
-  }
-
-  .result-row{
-    grid-template-columns:1fr 1fr;
     gap:10px;
   }
-
-  .result-box{
-    padding:12px;
+  .bank-body.desktop-table .acc-values{
+    margin-top:0;
+    border-top:0;
+    padding-top:0;
   }
-
-  .result-box strong{
-    font-size:20px;
+  .modal-card{
+    border-radius:24px;
+    margin:auto;
   }
-
-  button{
-    font-size:14px;
-  }
-
 }
-
-@media(max-width:430px){
-
-  .top-buttons{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .account-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .result-row{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .account-card{
-    padding:12px;
-    border-radius:18px;
-  }
-
-  .account-title{
-    font-size:20px;
-  }
-
-  input,select{
-    font-size:14px;
-    padding:10px;
-  }
-
-  .result-box strong{
-    font-size:18px;
-  }
-
-  .result-box small{
-    font-size:12px;
-  }
-
-}
-
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<h1>Calculadora UYU → USDT</h1>
+  <div class="header">
+    <div>
+      <h1>Calculadora UYU → USDT</h1>
+      <div class="subtitle">Sistema multiusuario conectado a Supabase</div>
+    </div>
+    <button class="icon-btn" onclick="loadAccounts()">↻</button>
+  </div>
 
-<div class="subtitle">
-Sistema multiusuario conectado a Supabase
+  <div class="summary">
+    <div class="summary-card"><small>Saldo total</small><strong id="totalBalance">$0,00</strong></div>
+    <div class="summary-card green"><small>Disponible</small><strong id="availableUSDT">$0,00</strong></div>
+    <div class="summary-card yellow"><small>Reserva final</small><strong id="finalReserve">$0,00</strong></div>
+    <div class="summary-card"><small>Cuentas</small><strong id="totalAccounts">0</strong></div>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot green"></i> Verde: se puede comprar</span>
+    <span><i class="dot red"></i> Rojo: no tocar</span>
+    <span><i class="dot yellow"></i> Amarillo: queda como reserva</span>
+  </div>
+
+  <div class="actions">
+    <button class="btn-green" onclick="addAccount()">+ Agregar</button>
+    <button class="btn-blue" onclick="saveAllAccounts()">Guardar</button>
+    <button class="btn-blue" onclick="loadAccounts()">Actualizar</button>
+    <button class="btn-dark" onclick="calculate()">Recalcular</button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <h2>Bancos y cuentas</h2>
+      <button class="btn-dark" onclick="addBank()">+ Banco</button>
+    </div>
+    <div id="banksContainer"></div>
+    <button class="add-bank" onclick="addBank()">+ Agregar nuevo banco</button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <h2>Mensaje listo</h2>
+    </div>
+    <div class="message-box">
+      <textarea id="message" readonly></textarea>
+      <button class="btn-green" onclick="copyMessage()">Copiar mensaje</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <h2>Configuración</h2>
+    </div>
+    <div class="config-grid">
+      <div>
+        <label>Saldo mínimo por cuenta</label>
+        <input id="minAccount" value="10000" oninput="calculate()">
+      </div>
+      <div>
+        <label>Reserva total obligatoria</label>
+        <input id="globalReserve" value="150000" oninput="calculate()">
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="cards">
-
-<div class="card">
-<h3>Saldo total</h3>
-<div class="value" id="totalBalance">$0</div>
+<div class="bottom-nav">
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})"><b>⌂</b>Resumen</button>
+  <button onclick="document.getElementById('message').scrollIntoView({behavior:'smooth'})"><b>☷</b>Mensaje</button>
+  <button onclick="saveAllAccounts()"><b>☁</b>Guardar</button>
+  <button onclick="loadAccounts()"><b>↻</b>Actualizar</button>
 </div>
 
-<div class="card green-card">
-<h3>Disponible para USDT</h3>
-<div class="value" id="availableUSDT">$0</div>
-</div>
+<div class="modal" id="accountModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2 id="modalTitle">Cuenta</h2>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
 
-<div class="card">
-<h3>Reserva final</h3>
-<div class="value" id="finalReserve">$0</div>
-</div>
+    <div class="form-grid">
+      <div>
+        <label>Titular</label>
+        <input id="mTitular">
+      </div>
+      <div>
+        <label>Cuenta</label>
+        <input id="mCuenta">
+      </div>
+      <div>
+        <label>Banco</label>
+        <select id="mBanco"></select>
+      </div>
+      <div>
+        <label>Saldo (UYU)</label>
+        <input id="mSaldo" class="big-saldo" inputmode="decimal">
+      </div>
+    </div>
 
-<div class="card">
-<h3>Cuentas</h3>
-<div class="value" id="totalAccounts">0</div>
-</div>
+    <div class="modal-results">
+      <div class="result-card">
+        <small>Disponible para USDT</small>
+        <strong class="money-green" id="mDisponible">$0,00</strong>
+      </div>
+      <div class="result-card">
+        <small>Queda como reserva</small>
+        <strong class="money-yellow" id="mReserva">$0,00</strong>
+      </div>
+    </div>
 
-</div>
+    <div class="status-pill" id="mEstado">Estado de la cuenta</div>
 
-<div class="section">
-
-<h2>Configuración</h2>
-
-<div class="notice">
-Ninguna cuenta debe quedar con menos de $10.000 y entre todas debe quedar una reserva total obligatoria.
-</div>
-
-<div class="config-grid">
-
-<div class="field">
-<label>Saldo mínimo por cuenta</label>
-<input id="minAccount" value="10000" oninput="calculate()">
-</div>
-
-<div class="field">
-<label>Reserva total obligatoria</label>
-<input id="globalReserve" value="150000" oninput="calculate()">
-</div>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<h2>Cuentas</h2>
-
-<div class="top-buttons">
-
-<button class="btn-green" onclick="addAccount()">
-+ Agregar Cuenta
-</button>
-
-<button class="btn-blue" onclick="saveAllAccounts()">
-Guardar Online
-</button>
-
-<button class="btn-blue" onclick="loadAccounts()">
-Actualizar
-</button>
-
-<button class="btn-gray" onclick="calculate()">
-Recalcular
-</button>
-
-</div>
-
-<div class="legend">
-
-<span>
-<div class="dot green"></div>
-Verde: se puede comprar
-</span>
-
-<span>
-<div class="dot red"></div>
-Rojo: no tocar
-</span>
-
-<span>
-<div class="dot yellow"></div>
-Amarillo: queda como reserva
-</span>
-
-</div>
-
-<div id="accountsBody" class="accounts-list"></div>
-
-</div><div class="section">
-
-<h2>Totales por banco</h2>
-
-<div id="bankTotals"></div>
-
-</div>
-
-<div class="section">
-
-<h2>Mensaje listo para copiar</h2>
-
-<button class="btn-green copy-btn" onclick="copyMessage()">
-Copiar mensaje
-</button>
-
-<textarea id="message"></textarea>
-
-</div>
-
+    <button class="btn-purple save-modal" onclick="saveModal()">Guardar cambios</button>
+    <button class="delete-modal" onclick="deleteCurrentFromModal()">Eliminar cuenta</button>
+  </div>
 </div>
 
 <script>
-
-const SUPABASE_URL =
-'https://fqttuhgkdeydgmnzjfzn.supabase.co';
-
-const SUPABASE_KEY =
-'sb_publishable_gqVQgVk468ZyPDmYqHO-IQ_mAa66SDs';
-
-const supabaseClient =
-supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const SUPABASE_URL = 'https://fqttuhgkdeydgmnzjfzn.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_gqVQgVk468ZyPDmYqHO-IQ_mAa66SDs';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let accounts = [];
+let openedBanks = {};
+let currentIndex = null;
 
-function formatMoney(value){
-
-  return new Intl.NumberFormat('es-UY',{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  })
-  .format(value || 0)
-  .replace(/^/,'$');
-
-}
+const defaultBanks = ['Prex','Mi Dinero','Itaú','Santander','BBVA','Oca Blue'];
 
 function parseMoney(value){
-
-  if(value === null || value === undefined || value === '')
-  return 0;
-
-  let raw = String(value)
-  .replace(/\$/g,'')
-  .replace(/\s/g,'');
-
-  if(raw.includes(',') && raw.includes('.')){
-
-    raw = raw.replace(/\./g,'').replace(',','.');
-
-  }else if(raw.includes(',')){
-
-    raw = raw.replace(',','.');
-
-  }
-
+  if(value === null || value === undefined || value === '') return 0;
+  let raw = String(value).replace(/\$/g,'').replace(/\s/g,'');
+  if(raw.includes(',') && raw.includes('.')) raw = raw.replace(/\./g,'').replace(',','.');
+  else if(raw.includes(',')) raw = raw.replace(',','.');
   return Number(raw) || 0;
-
 }
 
-function renderAccounts(){
-
-  const body =
-  document.getElementById('accountsBody');
-
-  body.innerHTML = '';
-
-  accounts.forEach((acc,index)=>{
-
-    const div = document.createElement('div');
-
-    div.className =
-    `account-card ${acc.status || ''}`;
-
-    div.innerHTML = `
-
-    <div class="account-header">
-
-      <div class="account-title">
-      Cuenta #${index + 1}
-      </div>
-
-      <button class="btn-red"
-      onclick="deleteAccount(${index})">
-      Eliminar
-      </button>
-
-    </div>
-
-    <div class="account-grid">
-
-      <div class="field">
-        <label>Titular</label>
-
-        <input
-        value="${acc.titular || ''}"
-
-        oninput="
-        updateField(${index},
-        'titular',
-        this.value)
-        ">
-      </div>
-
-      <div class="field">
-        <label>Cuenta</label>
-
-        <input
-        value="${acc.cuenta || ''}"
-
-        oninput="
-        updateField(${index},
-        'cuenta',
-        this.value)
-        ">
-      </div>
-
-      <div class="field">
-        <label>Banco</label>
-
-        <select
-        onchange="
-        updateField(${index},
-        'banco',
-        this.value)
-        ">
-
-          <option
-          ${acc.banco==='Prex'?'selected':''}>
-          Prex
-          </option>
-
-          <option
-          ${acc.banco==='Mi Dinero'?'selected':''}>
-          Mi Dinero
-          </option>
-
-          <option
-          ${acc.banco==='Itaú'?'selected':''}>
-          Itaú
-          </option>
-
-          <option
-          ${acc.banco==='Santander'?'selected':''}>
-          Santander
-          </option>
-
-          <option
-          ${acc.banco==='BBVA'?'selected':''}>
-          BBVA
-          </option>
-
-          <option
-          ${acc.banco==='Oca Blue'?'selected':''}>
-          Oca Blue
-          </option>
-
-          <option
-          ${acc.banco==='Otro'?'selected':''}>
-          Otro
-          </option>
-
-        </select>
-
-      </div>
-
-      <div class="field">
-        <label>Saldo (UYU)</label>
-
-        <input
-        value="${acc.saldo || ''}"
-
-        oninput="
-        updateField(${index},
-        'saldo',
-        this.value)
-        ">
-      </div>
-
-    </div>
-
-    <div class="result-row">
-
-      <div class="result-box">
-
-        <small>
-        Disponible para USDT
-        </small>
-
-        <strong class="available">
-        ${formatMoney(acc.available || 0)}
-        </strong>
-
-      </div>
-
-      <div class="result-box">
-
-        <small>
-        Queda como reserva
-        </small>
-
-        <strong class="remaining">
-        ${formatMoney(acc.remaining || 0)}
-        </strong>
-
-      </div>
-
-    </div>
-
-    `;
-
-    body.appendChild(div);
-
-  });
-
-  document.getElementById('totalAccounts')
-  .innerText = accounts.length;
-
+function formatMoney(value){
+  return new Intl.NumberFormat('es-UY',{minimumFractionDigits:2,maximumFractionDigits:2})
+    .format(value || 0).replace(/^/,'$');
 }
 
-function updateField(index,field,value){
-
-  accounts[index][field] = value;
-
-  calculate(false);
-
+function formatInputNumber(value){
+  const n = parseMoney(value);
+  if(!n) return '';
+  return new Intl.NumberFormat('es-UY',{maximumFractionDigits:2}).format(n);
 }
 
-function addAccount(){
-
-  accounts.push({
-
-    id:null,
-    titular:'',
-    cuenta:'',
-    banco:'Prex',
-    saldo:'',
-    available:0,
-    remaining:0,
-    status:'status-red'
-
-  });
-
-  renderAccounts();
-
+function getBanks(){
+  const set = new Set(defaultBanks);
+  accounts.forEach(a => { if(a.banco) set.add(a.banco); });
+  return [...set];
 }
 
 function calculate(render=true){
+  const min = parseMoney(document.getElementById('minAccount').value);
+  const reserve = parseMoney(document.getElementById('globalReserve').value);
 
-  const min =
-  parseMoney(
-  document.getElementById('minAccount').value
-  );
-
-  const reserve =
-  parseMoney(
-  document.getElementById('globalReserve').value
-  );
-
-  let total = 0;
-
-  accounts.forEach(acc=>{
-
-    total += parseMoney(acc.saldo);
-
-  });
-
-  let globalAvailable = total - reserve;
-
-  if(globalAvailable < 0){
-
-    globalAvailable = 0;
-
-  }
+  let total = accounts.reduce((s,a)=>s+parseMoney(a.saldo),0);
+  let globalAvailable = Math.max(total - reserve, 0);
 
   accounts = accounts.map(acc=>{
-
-    const balance =
-    parseMoney(acc.saldo);
-
+    const balance = parseMoney(acc.saldo);
     let available = 0;
-
-    let status = 'status-red';
+    let status = 'red';
 
     if(balance > min){
-
       available = balance - min;
-
-      if(available > globalAvailable){
-
-        available = globalAvailable;
-
-      }
-
+      if(available > globalAvailable) available = globalAvailable;
       globalAvailable -= available;
-
-      if(available > 0){
-
-        status = 'status-green';
-
-      }else{
-
-        status = 'status-yellow';
-
-      }
-
+      status = available > 0 ? 'green' : 'yellow';
     }
 
-    return{
-
+    return {
       ...acc,
-
       available,
-
       remaining: balance - available,
-
       status
-
     };
-
   });
 
-  if(render){
-
-    renderAccounts();
-
-  }
-
   renderTotals();
-
+  if(render) renderBanks();
+  if(currentIndex !== null) refreshModalValues();
 }
 
 function renderTotals(){
-
   let totalBalance = 0;
   let totalAvailable = 0;
   let totalReserve = 0;
-
-  let banks = {};
+  const banks = {};
 
   accounts.forEach(acc=>{
-
-    const balance =
-    parseMoney(acc.saldo);
-
-    totalBalance += balance;
-
+    totalBalance += parseMoney(acc.saldo);
     totalAvailable += acc.available || 0;
-
     totalReserve += acc.remaining || 0;
 
-    if(!banks[acc.banco]){
-
-      banks[acc.banco] = {
-
-        total:0,
-        accounts:[]
-
-      };
-
-    }
-
-    banks[acc.banco]
-    .total += acc.available || 0;
-
-    if(acc.available > 0){
-
-      banks[acc.banco]
-      .accounts.push(acc);
-
-    }
-
+    if(!banks[acc.banco]) banks[acc.banco] = {total:0,accounts:[]};
+    banks[acc.banco].total += acc.available || 0;
+    if(acc.available > 0) banks[acc.banco].accounts.push(acc);
   });
 
-  document.getElementById('totalBalance')
-  .innerText =
-  formatMoney(totalBalance);
+  document.getElementById('totalBalance').innerText = formatMoney(totalBalance);
+  document.getElementById('availableUSDT').innerText = formatMoney(totalAvailable);
+  document.getElementById('finalReserve').innerText = formatMoney(totalReserve);
+  document.getElementById('totalAccounts').innerText = accounts.length;
 
-  document.getElementById('availableUSDT')
-  .innerText =
-  formatMoney(totalAvailable);
-
-  document.getElementById('finalReserve')
-  .innerText =
-  formatMoney(totalReserve);
-
-  const bankDiv =
-  document.getElementById('bankTotals');
-
-  bankDiv.innerHTML = '';
-
-  let message =
-  '📌 Totales por banco para compra de USDT\n\n';
-
-  for(let bank in banks){
-
+  let message = '📌 Totales por banco para compra de USDT\n\n';
+  Object.keys(banks).forEach(bank=>{
     const item = banks[bank];
-
-    const div =
-    document.createElement('div');
-
-    div.className = 'bank-card';
-
-    div.innerHTML = `
-    <strong>${bank}</strong><br>
-    Disponible:
-    <span>${formatMoney(item.total)}</span>
-    `;
-
-    bankDiv.appendChild(div);
-
     if(item.total > 0){
-
-      message +=
-      `🔹 ${bank.toUpperCase()}\n\n`;
-
+      message += `🔹 ${bank.toUpperCase()}\n\n`;
       item.accounts.forEach(acc=>{
-
-        message +=
-        `• ${acc.cuenta}: ${formatMoney(acc.available)}\n`;
-
+        message += `• ${acc.cuenta}: ${formatMoney(acc.available)}\n`;
       });
-
-      message +=
-      `\nTOTAL ${bank.toUpperCase()}: ${formatMoney(item.total)}\n\n──────────────\n\n`;
-
+      message += `\nTOTAL ${bank.toUpperCase()}: ${formatMoney(item.total)}\n\n──────────────\n\n`;
     }
-
-  }
-
-  message +=
-  `💰 TOTAL GENERAL PARA COMPRAR USDT: ${formatMoney(totalAvailable)}`;
-
-  document.getElementById('message')
-  .value = message;
-
+  });
+  message += `💰 TOTAL GENERAL PARA COMPRAR USDT: ${formatMoney(totalAvailable)}`;
+  document.getElementById('message').value = message;
 }
 
-function copyMessage(){
+function renderBanks(){
+  const container = document.getElementById('banksContainer');
+  container.innerHTML = '';
 
-  const text =
-  document.getElementById('message');
+  getBanks().forEach(bank=>{
+    const bankAccounts = accounts.filter(a => a.banco === bank);
+    if(bankAccounts.length === 0) return;
 
-  text.select();
+    const total = bankAccounts.reduce((s,a)=>s+(a.available||0),0);
+    const open = openedBanks[bank] !== false;
 
-  document.execCommand('copy');
+    const div = document.createElement('div');
+    div.className = 'bank ' + (open ? 'open' : '');
+    div.innerHTML = `
+      <div class="bank-head" onclick="toggleBank('${bank}')">
+        <div>
+          <span class="bank-name">${bank.toUpperCase()}</span>
+          <span style="color:#94a3b8">(${bankAccounts.length} cuentas)</span>
+        </div>
+        <div>
+          <span class="bank-total">${formatMoney(total)}</span>
+          <span style="margin-left:8px">${open ? '⌃' : '⌄'}</span>
+        </div>
+      </div>
+      <div class="bank-body desktop-table">
+        ${bankAccounts.map(acc=>{
+          const index = accounts.findIndex(a => a === acc);
+          const cls = acc.status === 'red' ? 'red' : acc.status === 'yellow' ? 'yellow' : '';
+          return `
+          <div class="account-mini ${cls}" onclick="openModal(${index})">
+            <div class="acc-top">
+              <div>
+                <div class="acc-name">${acc.titular || 'Sin titular'}</div>
+                <div class="acc-sub">${acc.cuenta || 'Sin cuenta'}</div>
+              </div>
+              <span class="acc-status"></span>
+              <button class="acc-menu" onclick="event.stopPropagation();openModal(${index})">⋮</button>
+            </div>
+            <div class="acc-values">
+              <div><small>Disp. USDT</small><strong class="${acc.available>0?'money-green':'money-red'}">${formatMoney(acc.available||0)}</strong></div>
+              <div><small>Reserva</small><strong class="money-yellow">${formatMoney(acc.remaining||0)}</strong></div>
+            </div>
+          </div>`;
+        }).join('')}
+        <button class="add-account-bank" onclick="addAccount('${bank}')">+ Agregar cuenta a ${bank.toUpperCase()}</button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
 
-  alert('Mensaje copiado');
+function toggleBank(bank){
+  openedBanks[bank] = openedBanks[bank] === false ? true : false;
+  renderBanks();
+}
 
+function addBank(){
+  const bank = prompt('Nombre del nuevo banco, ejemplo: Scotiabank');
+  if(!bank) return;
+  addAccount(bank.trim());
+}
+
+function addAccount(bank='Prex'){
+  accounts.push({
+    id:null,
+    titular:'',
+    cuenta:'',
+    banco:bank,
+    saldo:'',
+    available:0,
+    remaining:0,
+    status:'red'
+  });
+  openedBanks[bank] = true;
+  calculate();
+  openModal(accounts.length - 1);
+}
+
+function fillBankSelect(selected){
+  const select = document.getElementById('mBanco');
+  select.innerHTML = getBanks().map(b=>`<option ${b===selected?'selected':''}>${b}</option>`).join('');
+}
+
+function openModal(index){
+  currentIndex = index;
+  const acc = accounts[index];
+
+  document.getElementById('modalTitle').innerText = acc.cuenta || `Cuenta #${index+1}`;
+  document.getElementById('mTitular').value = acc.titular || '';
+  document.getElementById('mCuenta').value = acc.cuenta || '';
+  document.getElementById('mSaldo').value = acc.saldo || '';
+  fillBankSelect(acc.banco || 'Prex');
+
+  document.getElementById('mTitular').oninput = modalInput;
+  document.getElementById('mCuenta').oninput = modalInput;
+  document.getElementById('mBanco').onchange = modalInput;
+  document.getElementById('mSaldo').oninput = modalInput;
+
+  refreshModalValues();
+  document.getElementById('accountModal').classList.add('show');
+}
+
+function modalInput(){
+  if(currentIndex === null) return;
+  accounts[currentIndex].titular = document.getElementById('mTitular').value;
+  accounts[currentIndex].cuenta = document.getElementById('mCuenta').value;
+  accounts[currentIndex].banco = document.getElementById('mBanco').value;
+  accounts[currentIndex].saldo = document.getElementById('mSaldo').value;
+  calculate(false);
+}
+
+function refreshModalValues(){
+  if(currentIndex === null) return;
+  const acc = accounts[currentIndex];
+  document.getElementById('mDisponible').innerText = formatMoney(acc.available || 0);
+  document.getElementById('mReserva').innerText = formatMoney(acc.remaining || 0);
+
+  let text = '🔴 No tocar';
+  let color = '#ef4444';
+  if(acc.status === 'green'){ text = '🟢 Se puede comprar'; color = '#22c55e'; }
+  if(acc.status === 'yellow'){ text = '🟡 Queda como reserva'; color = '#facc15'; }
+
+  const estado = document.getElementById('mEstado');
+  estado.innerText = text;
+  estado.style.color = color;
+}
+
+function closeModal(){
+  currentIndex = null;
+  document.getElementById('accountModal').classList.remove('show');
+  calculate();
+}
+
+function saveModal(){
+  closeModal();
+}
+
+async function deleteCurrentFromModal(){
+  if(currentIndex === null) return;
+  await deleteAccount(currentIndex);
+  closeModal();
+}
+
+async function deleteAccount(index){
+  const acc = accounts[index];
+  if(!confirm('¿Eliminar esta cuenta?')) return;
+
+  try{
+    if(acc.id){
+      const { error } = await supabaseClient.from('accounts').delete().eq('id', acc.id);
+      if(error) throw error;
+    }
+    accounts.splice(index,1);
+    calculate();
+  }catch(error){
+    alert('Error eliminando cuenta: ' + error.message);
+  }
 }
 
 async function saveAllAccounts(){
-
   try{
-
     for(const acc of accounts){
-
       const payload = {
-
-        titular:acc.titular || '',
-        cuenta:acc.cuenta || '',
-        banco:acc.banco || '',
-        saldo:parseMoney(acc.saldo),
-        updated_at:new Date().toISOString()
-
+        titular: acc.titular || '',
+        cuenta: acc.cuenta || '',
+        banco: acc.banco || '',
+        saldo: parseMoney(acc.saldo),
+        updated_at: new Date().toISOString()
       };
 
       if(acc.id){
-
-        const { error } =
-        await supabaseClient
-        .from('accounts')
-        .update(payload)
-        .eq('id',acc.id);
-
+        const { error } = await supabaseClient.from('accounts').update(payload).eq('id', acc.id);
         if(error) throw error;
-
       }else{
-
-        const { error } =
-        await supabaseClient
-        .from('accounts')
-        .insert(payload);
-
+        const { error } = await supabaseClient.from('accounts').insert(payload);
         if(error) throw error;
-
       }
-
     }
-
     alert('Datos guardados online 🚀');
-
     await loadAccounts();
-
   }catch(error){
-
-    console.error(error);
-
-    alert(
-    'Error guardando online: ' +
-    error.message
-    );
-
+    alert('Error guardando online: ' + error.message);
   }
-
 }
 
 async function loadAccounts(){
-
   try{
-
-    const { data,error } =
-    await supabaseClient
-    .from('accounts')
-    .select('*')
-    .order('id',{ascending:true});
-
+    const { data,error } = await supabaseClient.from('accounts').select('*').order('id',{ascending:true});
     if(error) throw error;
 
     accounts = (data || []).map(acc=>({
-
       id:acc.id,
       titular:acc.titular || '',
       cuenta:acc.cuenta || '',
@@ -1076,66 +736,24 @@ async function loadAccounts(){
       saldo:acc.saldo || '',
       available:0,
       remaining:0,
-      status:'status-red'
-
+      status:'red'
     }));
 
+    getBanks().forEach(b => { if(openedBanks[b] === undefined) openedBanks[b] = true; });
     calculate();
-
   }catch(error){
-
-    console.error(error);
-
-    alert(
-    'Error cargando datos: ' +
-    error.message
-    );
-
+    alert('Error cargando datos: ' + error.message);
   }
-
 }
 
-async function deleteAccount(index){
-
-  const acc = accounts[index];
-
-  if(!confirm('Eliminar cuenta?'))
-  return;
-
-  try{
-
-    if(acc.id){
-
-      const { error } =
-      await supabaseClient
-      .from('accounts')
-      .delete()
-      .eq('id',acc.id);
-
-      if(error) throw error;
-
-    }
-
-    accounts.splice(index,1);
-
-    calculate();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-    'Error eliminando cuenta: ' +
-    error.message
-    );
-
-  }
-
+function copyMessage(){
+  const text = document.getElementById('message');
+  text.select();
+  document.execCommand('copy');
+  alert('Mensaje copiado');
 }
 
 loadAccounts();
-
 </script>
-
 </body>
 </html>
